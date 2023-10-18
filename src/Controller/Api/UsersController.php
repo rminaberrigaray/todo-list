@@ -2,14 +2,15 @@
 
 namespace App\Controller\Api;
 
-use Rest\Controller\RestController;
-
-class UsersController extends RestController
+class UsersController extends ApiController
 {
 
-    public function list()
-    {
-        $users = $this->Users->find();
-        $this->set(compact('users'));
+    public function view() {
+    
+        $this->Crud->on('beforeFind', function(\Cake\Event\Event $event) {
+            $event->getSubject()->query->contain(['Tasks']);
+        });
+        return $this->Crud->execute();
     }
+
 }

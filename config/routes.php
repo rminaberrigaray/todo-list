@@ -95,6 +95,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
     $routes->resources('Users', function (RouteBuilder $routes) {
         $routes->resources('Tasks');
     });
+    $routes->resources('Tasks');
 
     $routes->fallbacks(DashedRoute::class);
 });

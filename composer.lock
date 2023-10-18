@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81bcfe020d598c4b86ee4bcc8a6444ae",
+    "content-hash": "a5f2c70e131dc40914c77b312b4caf51",
     "packages": [
         {
             "name": "aura/intl",
@@ -324,61 +324,90 @@
             "time": "2020-10-29T04:00:42+00:00"
         },
         {
-            "name": "firebase/php-jwt",
-            "version": "v5.5.1",
+            "name": "friendsofcake/crud",
+            "version": "5.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6"
+                "url": "https://github.com/FriendsOfCake/crud.git",
+                "reference": "fbb3f08a5c6bf82e1aac288ee8082d711086a4c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/83b609028194aa042ea33b5af2d41a7427de80e6",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/fbb3f08a5c6bf82e1aac288ee8082d711086a4c0",
+                "reference": "fbb3f08a5c6bf82e1aac288ee8082d711086a4c0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "cakephp/cakephp": "^3.5"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.8 <=9"
+                "cakephp/chronos": "^1.1",
+                "friendsofcake/cakephp-test-utilities": "^1.0",
+                "friendsofcake/search": "^4.4",
+                "muffin/webservice": "^1.3",
+                "phpunit/phpunit": "^5.7.14|^6.0"
             },
             "suggest": {
-                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
+                "friendsofcake/crud-json-api": "Crud listener for building APIs following the JSON API specification",
+                "friendsofcake/crud-view": "Automated admin backend based on your Crud configuration.",
+                "friendsofcake/search": "Provides search capabilities for the Crud plugin."
             },
-            "type": "library",
+            "type": "cakephp-plugin",
             "autoload": {
+                "files": [
+                    "aliases.php"
+                ],
                 "psr-4": {
-                    "Firebase\\JWT\\": "src"
+                    "Crud\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Neuman Vong",
-                    "email": "neuman+pear@twilio.com",
-                    "role": "Developer"
+                    "name": "Christian Winther",
+                    "homepage": "http://cakephp.nu/",
+                    "role": "Author"
                 },
                 {
-                    "name": "Anant Narayanan",
-                    "email": "anant@php.net",
-                    "role": "Developer"
+                    "name": "José Lorenzo Rodríguez",
+                    "homepage": "https://github.com/lorenzo",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Andy Dawson",
+                    "homepage": "https://github.com/ad7six",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/admad",
+                    "role": "Contributor"
                 }
             ],
-            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-            "homepage": "https://github.com/firebase/php-jwt",
+            "description": "CakePHP Application development on steroids - rapid prototyping / scaffolding & production ready code - XML / JSON APIs and more",
+            "homepage": "https://github.com/FriendsOfCake/crud",
             "keywords": [
-                "jwt",
-                "php"
+                "bake",
+                "cake",
+                "cakephp",
+                "create",
+                "crud",
+                "delete",
+                "retrieve",
+                "scaffold",
+                "scaffolding",
+                "update"
             ],
             "support": {
-                "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
+                "irc": "irc://irc.freenode.org/friendsofcake",
+                "issues": "https://github.com/FriendsOfCake/crud/issues",
+                "source": "https://github.com/FriendsOfCake/crud",
+                "wiki": "http://crud.readthedocs.org/en/latest/"
             },
-            "time": "2021-11-08T20:18:51+00:00"
+            "time": "2020-06-19T17:23:50+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -721,70 +750,6 @@
                 "source": "https://github.com/cakephp/phinx/tree/0.11.7"
             },
             "time": "2020-05-09T13:59:05+00:00"
-        },
-        {
-            "name": "sprintcube/cakephp-rest",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sprintcube/cakephp-rest.git",
-                "reference": "2538246e7a397c990e4710ba43e9eb8f1f291d66"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sprintcube/cakephp-rest/zipball/2538246e7a397c990e4710ba43e9eb8f1f291d66",
-                "reference": "2538246e7a397c990e4710ba43e9eb8f1f291d66",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.4.0",
-                "firebase/php-jwt": "^5.0",
-                "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "phpunit/phpunit": "^5.7|^6.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Rest\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "SprintCube",
-                    "homepage": "https://www.sprintcube.com",
-                    "role": "Author"
-                },
-                {
-                    "name": "Community",
-                    "homepage": "https://github.com/sprintcube/cakephp-rest/graphs/contributors"
-                },
-                {
-                    "name": "Narendra Vaghela",
-                    "homepage": "https://www.narendravaghela.com",
-                    "role": "Author"
-                }
-            ],
-            "description": "Rest API plugin for CakePHP 3",
-            "keywords": [
-                "CakePHP Rest",
-                "CakePHP Rest Api",
-                "REST API",
-                "api",
-                "cakephp",
-                "rest"
-            ],
-            "support": {
-                "issues": "https://github.com/sprintcube/cakephp-rest/issues",
-                "source": "https://github.com/sprintcube/cakephp-rest"
-            },
-            "time": "2018-08-20T06:16:58+00:00"
         },
         {
             "name": "symfony/config",
