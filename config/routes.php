@@ -97,6 +97,8 @@ Router::prefix('api', function (RouteBuilder $routes) {
     });
     $routes->resources('Tasks');
 
+    Router::connect('/api/users/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
+
     $routes->fallbacks(DashedRoute::class);
 });
 
