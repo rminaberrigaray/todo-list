@@ -34,6 +34,8 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('AssetMix', ['bootstrap' => true]);
+
         $this->addPlugin('ADmad/JwtAuth');
 
         $this->addPlugin('Crud');
