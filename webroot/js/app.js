@@ -74,18 +74,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 3:
               response = _context.sent;
+              sessionStorage.setItem('token', response.data.data.token);
               window.location.replace('/');
-              _context.next = 10;
+              _context.next = 11;
               break;
-            case 7:
-              _context.prev = 7;
+            case 8:
+              _context.prev = 8;
               _context.t0 = _context["catch"](0);
               _this.error = 'Invalid username or password';
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   }
@@ -136,18 +137,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 3:
               response = _context.sent;
+              sessionStorage.setItem('token', response.data.data.token);
               window.location.replace('/');
-              _context.next = 10;
+              _context.next = 11;
               break;
-            case 7:
-              _context.prev = 7;
+            case 8:
+              _context.prev = 8;
               _context.t0 = _context["catch"](0);
               _this.error = 'Username already in use';
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   }
@@ -168,7 +170,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log(sessionStorage.getItem('token'));
   }
 });
 

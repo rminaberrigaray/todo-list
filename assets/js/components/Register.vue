@@ -60,6 +60,7 @@ export default {
           },
           { headers: { 'Accept': 'application/json' } }
         )
+        sessionStorage.setItem('token', response.data.data.token)
         window.location.replace('/')
       } catch (error) {
         this.error = 'Username already in use'
