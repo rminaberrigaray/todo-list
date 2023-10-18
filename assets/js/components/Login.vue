@@ -10,12 +10,27 @@
 
           <div class="mt-8 space-y-8">
             <div class="space-y-6">
-              <input class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300" placeholder="Username" type="email" name="email" id="email" />
+              <input
+                class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300" 
+                placeholder="Username" name="username" id="username" 
+                v-model="username"
+              />
 
-              <input class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300" placeholder="Password" type="password" name="password" id="password" />
+              <input 
+                class="w-full bg-transparent text-gray-600 dark:text-white dark:border-gray-700 rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-600 invalid:border-red-500 dark:placeholder-gray-300"
+                placeholder="Password" type="password" name="password" id="password" 
+                v-model="password"
+              />
             </div>
 
-            <button class="h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white">
+            <div v-if="error" class="text-red-500">{{ error }}</div>
+
+            <button 
+              class="h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white"
+              type="button"
+              :disabled="!username || !password"
+              @click="login"
+            >
               Login
             </button>
           </div>
@@ -27,8 +42,31 @@
 
 <script>
 export default {
-  mounted() {
-    console.log('Component mounted.');
+
+  data() {
+    return {
+      username: null,
+      password: null,
+      error: null
+    }
+  },
+  
+  methods: {
+    async login() {
+      try {
+        const response = await axios.post(
+          '/api/users/token', 
+          {
+            username: this.username,
+            password: this.password
+          },
+          { headers: { 'Accept': 'application/json' } }
+        )
+        window.location.replace('/')
+      } catch (error) {
+        this.error = 'Invalid username or password'
+      }
+    }
   }
 }
 </script>
