@@ -63,4 +63,12 @@ class UsersController extends ApiController
         ]);
     }
 
+    public function tokenInfo() 
+    {
+        $this->set([
+            'data' => $this->Auth->identify(),
+            '_serialize' => ['data']
+        ]);
+    }
+
 }
