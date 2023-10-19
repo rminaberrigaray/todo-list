@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$title = 'To do list CakePHP + Vue.js';
+$title = 'To Do list CakePHP + Vue.js';
 ?>
 <!DOCTYPE html>
 <html>
