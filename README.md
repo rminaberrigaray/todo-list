@@ -32,7 +32,7 @@ npm install
 3. Build assets
 
 ```bash
-npm run build
+npm run dev
 ```
 
 4. Start up the built-in webserver with:
