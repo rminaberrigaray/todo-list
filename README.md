@@ -4,10 +4,11 @@ A To Do List App developed with CakePHP and Vue.js.
 
 ## Prerequisites
 
-1. PHP 7.2
+1. PHP 7.2 (>= 5.6 supported)
 2. Composer
 3. MySQL 5.6
-4. Node.js
+4. Node.js (>= 8.9 supported)
+5. PHP extensions (mbstring, intl, simplexml, PDO PHP)
 
 ## Database creation and configuration
 
