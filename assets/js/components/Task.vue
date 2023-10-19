@@ -16,7 +16,7 @@
     <button
       type="button"
       title="Remove"
-      @click.stop="removeTask"
+      @click.stop="$emit('remove', task)"
     >✖️</button>
   </label>
 </template>
@@ -29,12 +29,6 @@ export default {
       type: Object,
       required: true
     } 
-  },
-
-  methods: {
-    removeTask() {
-      console.log('remove')
-    }
   },
 
   computed: {

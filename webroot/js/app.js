@@ -218,11 +218,6 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  methods: {
-    removeTask: function removeTask() {
-      console.log('remove');
-    }
-  },
   computed: {
     checked: {
       get: function get() {
@@ -452,6 +447,32 @@ var defaultHeaders = function defaultHeaders(token) {
               return _context7.stop();
           }
         }, _callee7);
+      }))();
+    },
+    removeTask: function removeTask(task) {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _this8.saving = true;
+              _context8.next = 3;
+              return axios["delete"]("/api/tasks/".concat(task.id), {
+                headers: defaultHeaders(_this8.token)
+              });
+            case 3:
+              _this8.lastSaved = new Date();
+              _this8.saving = false;
+              _this8.newTaskDescription = null;
+              _context8.next = 8;
+              return _this8.fetchUserTasks();
+            case 8:
+              _this8.tasks = _context8.sent;
+            case 9:
+            case "end":
+              return _context8.stop();
+          }
+        }, _callee8);
       }))();
     }
   }
@@ -1089,7 +1110,7 @@ var render = function render() {
     on: {
       click: function click($event) {
         $event.stopPropagation();
-        return _vm.removeTask.apply(null, arguments);
+        return _vm.$emit("remove", _vm.task);
       }
     }
   }, [_vm._v("✖️")])]);
@@ -1197,7 +1218,8 @@ var render = function render() {
       on: {
         "change-completed": function changeCompleted($event) {
           return _vm.onChangeCompleted($event, task);
-        }
+        },
+        remove: _vm.removeTask
       }
     });
   }), 1)], 1)], 1)])], 1);

@@ -52,6 +52,7 @@
               v-for="task in tasks" :key="task.id" 
               :task="task" 
               @change-completed="onChangeCompleted($event, task)"
+              @remove="removeTask"
             />
           </div>
         </transition>
@@ -141,7 +142,6 @@ export default {
           this.newTaskDescription = null
           this.tasks = await this.fetchUserTasks()
       }
-
     },
     async updateTask(task) {
       await axios.patch(`/api/tasks/${task.id}`,
@@ -149,6 +149,16 @@ export default {
         { headers: defaultHeaders(this.token) }
       )
     },
+    async removeTask(task) {
+      this.saving = true
+      await axios.delete(`/api/tasks/${task.id}`,
+        { headers: defaultHeaders(this.token) }
+      )
+      this.lastSaved = new Date()
+      this.saving = false
+      this.newTaskDescription = null
+      this.tasks = await this.fetchUserTasks()
+    }
   }
 }
 </script>
