@@ -27,7 +27,7 @@ $title = 'To Do list CakePHP + Vue.js';
     <?= $this->AssetMix->css('app.css') ?>
     <?= $this->fetch('meta') ?>
 </head>
-<body class="bg-teal-50 dark:bg-gray-800">
+<body class="bg-slate-100 dark:bg-gray-800">
     <div class="">
         <?= $this->fetch('content') ?>
     </div>
