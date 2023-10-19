@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex min-h-screen items-center justify-center bg-white dark:bg-gray-950 p-12">
-    <form action="">
+    <form action="" @submit.prevent="login">
       <div class="max-w-sm rounded-3xl bg-gradient-to-b from-sky-300 to-purple-500 p-px dark:from-gray-800 dark:to-transparent">
         <div class="rounded-[calc(1.5rem-1px)] bg-white px-10 p-12 dark:bg-gray-900">
           <div>
@@ -27,9 +27,7 @@
 
             <button 
               class="h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white"
-              type="button"
               :disabled="!username || !password"
-              @click="login"
             >
               Login
             </button>

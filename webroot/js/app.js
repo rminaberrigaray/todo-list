@@ -852,6 +852,12 @@ var render = function render() {
   }, [_c("form", {
     attrs: {
       action: ""
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.login.apply(null, arguments);
+      }
     }
   }, [_c("div", {
     staticClass: "max-w-sm rounded-3xl bg-gradient-to-b from-sky-300 to-purple-500 p-px dark:from-gray-800 dark:to-transparent"
@@ -911,11 +917,7 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c("button", {
     staticClass: "h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white",
     attrs: {
-      type: "button",
       disabled: !_vm.username || !_vm.password
-    },
-    on: {
-      click: _vm.login
     }
   }, [_vm._v("\n            Login\n          ")])])])])])]);
 };
@@ -958,6 +960,12 @@ var render = function render() {
   }, [_c("form", {
     attrs: {
       action: ""
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.register.apply(null, arguments);
+      }
     }
   }, [_c("div", {
     staticClass: "max-w-sm rounded-3xl bg-gradient-to-b from-sky-300 to-purple-500 p-px dark:from-gray-800 dark:to-transparent"
@@ -1017,11 +1025,7 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c("button", {
     staticClass: "h-9 px-3 w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 focus:bg-blue-700 transition duration-500 rounded-md text-white",
     attrs: {
-      type: "button",
       disabled: !_vm.username || !_vm.password
-    },
-    on: {
-      click: _vm.register
     }
   }, [_vm._v("\n            Register\n          ")])])])])])]);
 };
