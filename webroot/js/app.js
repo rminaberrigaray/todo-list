@@ -280,7 +280,8 @@ var defaultHeaders = function defaultHeaders(token) {
       user: null,
       tasks: [],
       saving: false,
-      lastSaved: null
+      lastSaved: null,
+      newTaskDescription: null
     };
   },
   created: function created() {
@@ -382,23 +383,75 @@ var defaultHeaders = function defaultHeaders(token) {
         }, _callee4);
       }))();
     },
-    updateTask: function updateTask(task) {
+    onEnterKeyup: function onEnterKeyup(event) {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
-              return axios.patch("/api/tasks/".concat(task.id), {
-                completed: task.completed
-              }, {
-                headers: defaultHeaders(_this5.token)
-              });
-            case 2:
+              if (!event.target.value) {
+                _context5.next = 3;
+                break;
+              }
+              _context5.next = 3;
+              return _this5.newTask(event.target.value);
+            case 3:
             case "end":
               return _context5.stop();
           }
         }, _callee5);
+      }))();
+    },
+    newTask: function newTask() {
+      var _this6 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              if (!_this6.newTaskDescription) {
+                _context6.next = 10;
+                break;
+              }
+              _this6.saving = true;
+              _context6.next = 4;
+              return axios.post('/api/tasks', {
+                user_id: _this6.user.id,
+                description: _this6.newTaskDescription
+              }, {
+                headers: defaultHeaders(_this6.token)
+              });
+            case 4:
+              _this6.lastSaved = new Date();
+              _this6.saving = false;
+              _this6.newTaskDescription = null;
+              _context6.next = 9;
+              return _this6.fetchUserTasks();
+            case 9:
+              _this6.tasks = _context6.sent;
+            case 10:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
+    updateTask: function updateTask(task) {
+      var _this7 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return axios.patch("/api/tasks/".concat(task.id), {
+                completed: task.completed
+              }, {
+                headers: defaultHeaders(_this7.token)
+              });
+            case 2:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
       }))();
     }
   }
@@ -1028,9 +1081,9 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("span", {
     staticClass: "grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through"
-  }, [_vm._v("\n    " + _vm._s(_vm.task.description) + "\n  ")]), _vm._v(" "), _c("div", {
-    staticClass: "cursor-pointer",
+  }, [_vm._v("\n    " + _vm._s(_vm.task.description) + "\n  ")]), _vm._v(" "), _c("button", {
     attrs: {
+      type: "button",
       title: "Remove"
     },
     on: {
@@ -1094,7 +1147,34 @@ var render = function render() {
     staticClass: "w-4 h-4"
   }), _vm._v(" "), _c("span", [_vm._v("Saving...")])], 1) : _vm.lastSaved ? _c("div", {
     staticClass: "text-sm"
-  }, [_vm._v("\n          Last changes saved at: " + _vm._s(_vm.lastSaved.toLocaleString("en-US")) + "\n        ")]) : _vm._e()]), _vm._v(" "), _c("transition", {
+  }, [_vm._v("\n          Last changes saved at: " + _vm._s(_vm.lastSaved.toLocaleString("en-US")) + "\n        ")]) : _vm._e()]), _vm._v(" "), _c("div", {
+    staticClass: "py-2"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newTaskDescription,
+      expression: "newTaskDescription"
+    }],
+    staticClass: "block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+    attrs: {
+      type: "text",
+      placeholder: "Add new task (press enter)"
+    },
+    domProps: {
+      value: _vm.newTaskDescription
+    },
+    on: {
+      keyup: function keyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.newTask.apply(null, arguments);
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.newTaskDescription = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("transition", {
     attrs: {
       "enter-active-class": "transition-opacity duration-300",
       "leave-active-class": "transition-opacity duration-300",
@@ -1107,7 +1187,7 @@ var render = function render() {
       message: "Your task list is empty"
     }
   }) : _c("div", {
-    staticClass: "flex flex-col w-full space-y-4"
+    staticClass: "flex flex-col w-full space-y-2"
   }, _vm._l(_vm.tasks, function (task) {
     return _c("Task", {
       key: task.id,

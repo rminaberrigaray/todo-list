@@ -30,6 +30,15 @@
             Last changes saved at: {{ lastSaved.toLocaleString("en-US") }}
           </div>
         </transition>
+        <div class="py-2">
+          <input
+            class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text" 
+            placeholder="Add new task (press enter)"
+            v-model="newTaskDescription"
+            @keyup.enter="newTask"
+          >
+        </div>
         <transition
           enter-active-class="transition-opacity duration-300"
           leave-active-class="transition-opacity duration-300"
@@ -38,7 +47,7 @@
           mode="out-in"
         >
           <Empty v-if="tasks.length === 0" message="Your task list is empty" />
-          <div v-else class="flex flex-col w-full space-y-4">
+          <div v-else class="flex flex-col w-full space-y-2">
             <Task 
               v-for="task in tasks" :key="task.id" 
               :task="task" 
@@ -76,6 +85,7 @@ export default {
       tasks: [],
       saving: false,
       lastSaved: null,
+      newTaskDescription: null
     }
   },
 
@@ -111,12 +121,34 @@ export default {
       this.lastSaved = new Date()
       this.saving = false
     },
+    async onEnterKeyup(event) {
+      if (event.target.value) {
+        await this.newTask(event.target.value)
+      }
+    },
+    async newTask() {
+      if(this.newTaskDescription) {
+        this.saving = true
+        await axios.post('/api/tasks',
+          { 
+            user_id: this.user.id,
+            description: this.newTaskDescription 
+          }, 
+          { headers: defaultHeaders(this.token) }
+        )
+          this.lastSaved = new Date()
+          this.saving = false
+          this.newTaskDescription = null
+          this.tasks = await this.fetchUserTasks()
+      }
+
+    },
     async updateTask(task) {
       await axios.patch(`/api/tasks/${task.id}`,
         { completed: task.completed }, 
         { headers: defaultHeaders(this.token) }
       )
-    }
+    },
   }
 }
 </script>

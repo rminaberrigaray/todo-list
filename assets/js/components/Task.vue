@@ -13,10 +13,11 @@
     <span class="grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through">
       {{ task.description }}
     </span>
-    <div 
-      class="cursor-pointer" title="Remove"
+    <button
+      type="button"
+      title="Remove"
       @click.stop="removeTask"
-    >✖️</div>
+    >✖️</button>
   </label>
 </template>
 
