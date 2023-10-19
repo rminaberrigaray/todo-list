@@ -222,6 +222,16 @@ __webpack_require__.r(__webpack_exports__);
     removeTask: function removeTask() {
       console.log('remove');
     }
+  },
+  computed: {
+    checked: {
+      get: function get() {
+        return this.task.completed;
+      },
+      set: function set(value) {
+        this.$emit('change-completed', value);
+      }
+    }
   }
 });
 
@@ -250,6 +260,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+var defaultHeaders = function defaultHeaders(token) {
+  return {
+    'Accept': 'application/json',
+    'Authorization': "Bearer ".concat(token)
+  };
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Loader: _Loader_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -313,10 +329,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context2.next = 2;
               return axios.get('/api/users/token-info', {
-                headers: {
-                  'Accept': 'application/json',
-                  'Authorization': "Bearer ".concat(_this2.token)
-                }
+                headers: defaultHeaders(_this2.token)
               });
             case 2:
               response = _context2.sent;
@@ -337,10 +350,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _context3.next = 2;
               return axios.get("/api/users/".concat(_this3.user.id), {
-                headers: {
-                  'Accept': 'application/json',
-                  'Authorization': "Bearer ".concat(_this3.token)
-                }
+                headers: defaultHeaders(_this3.token)
               });
             case 2:
               response = _context3.sent;
@@ -350,6 +360,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _context3.stop();
           }
         }, _callee3);
+      }))();
+    },
+    onChangeCompleted: function onChangeCompleted(value, task) {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              task.completed = value;
+              _this4.saving = true;
+              _context4.next = 4;
+              return _this4.updateTask(task);
+            case 4:
+              _this4.lastSaved = new Date();
+              _this4.saving = false;
+            case 6:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }))();
+    },
+    updateTask: function updateTask(task) {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return axios.patch("/api/tasks/".concat(task.id), {
+                completed: task.completed
+              }, {
+                headers: defaultHeaders(_this5.token)
+              });
+            case 2:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
       }))();
     }
   }
@@ -941,16 +990,44 @@ var render = function render() {
   return _c("label", {
     staticClass: "p-4 w-full group flex items-center space-x-4 text-gray-900 dark:text-gray-300 bg-slate-200 hover:bg-slate-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-md select-none cursor-pointer ease-in-out duration-100",
     attrs: {
-      "for": _vm.task.id
+      "for": _vm.task.id,
+      title: _vm.task.completed ? "Mark as pending" : "Mark as completed"
     }
   }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.checked,
+      expression: "checked"
+    }],
     staticClass: "peer w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600",
     attrs: {
       id: _vm.task.id,
       type: "checkbox"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.checked) ? _vm._i(_vm.checked, null) > -1 : _vm.checked
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.checked,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.checked = $$a.concat([$$v]));
+          } else {
+            $$i > -1 && (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.checked = $$c;
+        }
+      }
     }
   }), _vm._v(" "), _c("span", {
-    staticClass: "grow text-xl font-medium group-hover:line-through peer-checked:line-through"
+    staticClass: "grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through"
   }, [_vm._v("\n    " + _vm._s(_vm.task.description) + "\n  ")]), _vm._v(" "), _c("div", {
     staticClass: "cursor-pointer",
     attrs: {
@@ -1036,6 +1113,11 @@ var render = function render() {
       key: task.id,
       attrs: {
         task: task
+      },
+      on: {
+        "change-completed": function changeCompleted($event) {
+          return _vm.onChangeCompleted($event, task);
+        }
       }
     });
   }), 1)], 1)], 1)])], 1);

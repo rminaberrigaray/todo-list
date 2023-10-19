@@ -1154,6 +1154,9 @@ video {
 .peer:checked ~ .peer-checked\:line-through {
   text-decoration-line: line-through;
 }
+.group:hover .peer:checked ~ .group-hover\:peer-checked\:no-underline {
+  text-decoration-line: none;
+}
 @media (prefers-color-scheme: dark) {
 
   .dark\:border-gray-700 {

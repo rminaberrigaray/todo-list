@@ -39,7 +39,11 @@
         >
           <Empty v-if="tasks.length === 0" message="Your task list is empty" />
           <div v-else class="flex flex-col w-full space-y-4">
-            <Task v-for="task in tasks" :key="task.id" :task="task" />
+            <Task 
+              v-for="task in tasks" :key="task.id" 
+              :task="task" 
+              @change-completed="onChangeCompleted($event, task)"
+            />
           </div>
         </transition>
       </div>
@@ -52,6 +56,13 @@ import Loader from './Loader.vue'
 import Task from './Task.vue'
 import Spinner from './Spinner.vue'
 import Empty from './Empty.vue'
+
+const defaultHeaders = (token) => {
+   return {
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
+}
 
 export default {
   
@@ -83,22 +94,29 @@ export default {
   methods: {
     async fetchUser() {
       const response = await axios.get('/api/users/token-info', {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${this.token}`
-        }
+        headers: defaultHeaders(this.token)
       })
       return response.data.data
     },
     async fetchUserTasks() {
       const response = await axios.get(`/api/users/${this.user.id}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${this.token}`
-        }
+        headers: defaultHeaders(this.token)
       })
       return response.data.data.tasks
     },
+    async onChangeCompleted(value, task) {
+      task.completed = value
+      this.saving = true
+      await this.updateTask(task)
+      this.lastSaved = new Date()
+      this.saving = false
+    },
+    async updateTask(task) {
+      await axios.patch(`/api/tasks/${task.id}`,
+        { completed: task.completed }, 
+        { headers: defaultHeaders(this.token) }
+      )
+    }
   }
 }
 </script>
