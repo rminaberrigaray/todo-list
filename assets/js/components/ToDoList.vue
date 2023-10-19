@@ -52,6 +52,7 @@
               v-for="task in tasks" :key="task.id" 
               :task="task" 
               @change-completed="onChangeCompleted($event, task)"
+              @change-description="onChangeDescription($event, task)"
               @remove="removeTask"
             />
           </div>
@@ -122,6 +123,13 @@ export default {
       this.lastSaved = new Date()
       this.saving = false
     },
+    async onChangeDescription(value, task) {
+      task.description = value
+      this.saving = true
+      await this.updateTask(task)
+      this.lastSaved = new Date()
+      this.saving = false
+    },
     async onEnterKeyup(event) {
       if (event.target.value) {
         await this.newTask(event.target.value)
@@ -145,7 +153,7 @@ export default {
     },
     async updateTask(task) {
       await axios.patch(`/api/tasks/${task.id}`,
-        { completed: task.completed }, 
+        { completed: task.completed, description: task.description }, 
         { headers: defaultHeaders(this.token) }
       )
     },

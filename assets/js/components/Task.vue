@@ -10,9 +10,23 @@
       type="checkbox"
       v-model="checked" 
     >
-    <span class="grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through">
+    <input
+      v-if="editing"
+      class="inline w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      type="text" 
+      placeholder="Add new task (press enter)"
+      v-model="newDescription"
+      @keyup.enter="onChangeDescription"
+    >
+    <span v-else class="grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through">
       {{ task.description }}
     </span>
+    
+    <button
+      type="button"
+      title="Edit"
+      @click.stop="editTask"
+    >🖊️</button>
     <button
       type="button"
       title="Remove"
@@ -31,6 +45,13 @@ export default {
     } 
   },
 
+  data() {
+    return {
+      editing: false,
+      newDescription: null,
+    }
+  },
+
   computed: {
     checked: {
       get() {
@@ -39,6 +60,18 @@ export default {
       set(value) {
         this.$emit('change-completed', value)
       }
+    }
+  },
+
+  methods: {
+    editTask() {
+      this.editing = true
+      this.newDescription = this.task.description
+    },
+    onChangeDescription() {
+      this.$emit('change-description', this.newDescription)
+      this.newDescription = null
+      this.editing = false
     }
   }
 }

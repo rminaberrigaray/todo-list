@@ -218,6 +218,12 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
+  data: function data() {
+    return {
+      editing: false,
+      newDescription: null
+    };
+  },
   computed: {
     checked: {
       get: function get() {
@@ -226,6 +232,17 @@ __webpack_require__.r(__webpack_exports__);
       set: function set(value) {
         this.$emit('change-completed', value);
       }
+    }
+  },
+  methods: {
+    editTask: function editTask() {
+      this.editing = true;
+      this.newDescription = this.task.description;
+    },
+    onChangeDescription: function onChangeDescription() {
+      this.$emit('change-description', this.newDescription);
+      this.newDescription = null;
+      this.editing = false;
     }
   }
 });
@@ -378,101 +395,122 @@ var defaultHeaders = function defaultHeaders(token) {
         }, _callee4);
       }))();
     },
-    onEnterKeyup: function onEnterKeyup(event) {
+    onChangeDescription: function onChangeDescription(value, task) {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              if (!event.target.value) {
-                _context5.next = 3;
-                break;
-              }
-              _context5.next = 3;
-              return _this5.newTask(event.target.value);
-            case 3:
+              task.description = value;
+              _this5.saving = true;
+              _context5.next = 4;
+              return _this5.updateTask(task);
+            case 4:
+              _this5.lastSaved = new Date();
+              _this5.saving = false;
+            case 6:
             case "end":
               return _context5.stop();
           }
         }, _callee5);
       }))();
     },
-    newTask: function newTask() {
+    onEnterKeyup: function onEnterKeyup(event) {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              if (!_this6.newTaskDescription) {
-                _context6.next = 10;
+              if (!event.target.value) {
+                _context6.next = 3;
                 break;
               }
-              _this6.saving = true;
-              _context6.next = 4;
-              return axios.post('/api/tasks', {
-                user_id: _this6.user.id,
-                description: _this6.newTaskDescription
-              }, {
-                headers: defaultHeaders(_this6.token)
-              });
-            case 4:
-              _this6.lastSaved = new Date();
-              _this6.saving = false;
-              _this6.newTaskDescription = null;
-              _context6.next = 9;
-              return _this6.fetchUserTasks();
-            case 9:
-              _this6.tasks = _context6.sent;
-            case 10:
+              _context6.next = 3;
+              return _this6.newTask(event.target.value);
+            case 3:
             case "end":
               return _context6.stop();
           }
         }, _callee6);
       }))();
     },
-    updateTask: function updateTask(task) {
+    newTask: function newTask() {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
-              _context7.next = 2;
-              return axios.patch("/api/tasks/".concat(task.id), {
-                completed: task.completed
+              if (!_this7.newTaskDescription) {
+                _context7.next = 10;
+                break;
+              }
+              _this7.saving = true;
+              _context7.next = 4;
+              return axios.post('/api/tasks', {
+                user_id: _this7.user.id,
+                description: _this7.newTaskDescription
               }, {
                 headers: defaultHeaders(_this7.token)
               });
-            case 2:
+            case 4:
+              _this7.lastSaved = new Date();
+              _this7.saving = false;
+              _this7.newTaskDescription = null;
+              _context7.next = 9;
+              return _this7.fetchUserTasks();
+            case 9:
+              _this7.tasks = _context7.sent;
+            case 10:
             case "end":
               return _context7.stop();
           }
         }, _callee7);
       }))();
     },
-    removeTask: function removeTask(task) {
+    updateTask: function updateTask(task) {
       var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              _this8.saving = true;
-              _context8.next = 3;
-              return axios["delete"]("/api/tasks/".concat(task.id), {
+              _context8.next = 2;
+              return axios.patch("/api/tasks/".concat(task.id), {
+                completed: task.completed,
+                description: task.description
+              }, {
                 headers: defaultHeaders(_this8.token)
               });
-            case 3:
-              _this8.lastSaved = new Date();
-              _this8.saving = false;
-              _this8.newTaskDescription = null;
-              _context8.next = 8;
-              return _this8.fetchUserTasks();
-            case 8:
-              _this8.tasks = _context8.sent;
-            case 9:
+            case 2:
             case "end":
               return _context8.stop();
           }
         }, _callee8);
+      }))();
+    },
+    removeTask: function removeTask(task) {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
+            case 0:
+              _this9.saving = true;
+              _context9.next = 3;
+              return axios["delete"]("/api/tasks/".concat(task.id), {
+                headers: defaultHeaders(_this9.token)
+              });
+            case 3:
+              _this9.lastSaved = new Date();
+              _this9.saving = false;
+              _this9.newTaskDescription = null;
+              _context9.next = 8;
+              return _this9.fetchUserTasks();
+            case 8:
+              _this9.tasks = _context9.sent;
+            case 9:
+            case "end":
+              return _context9.stop();
+          }
+        }, _callee9);
       }))();
     }
   }
@@ -1100,9 +1138,45 @@ var render = function render() {
         }
       }
     }
-  }), _vm._v(" "), _c("span", {
+  }), _vm._v(" "), _vm.editing ? _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newDescription,
+      expression: "newDescription"
+    }],
+    staticClass: "inline w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+    attrs: {
+      type: "text",
+      placeholder: "Add new task (press enter)"
+    },
+    domProps: {
+      value: _vm.newDescription
+    },
+    on: {
+      keyup: function keyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.onChangeDescription.apply(null, arguments);
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.newDescription = $event.target.value;
+      }
+    }
+  }) : _c("span", {
     staticClass: "grow text-xl font-medium group-hover:line-through group-hover:peer-checked:no-underline peer-checked:line-through"
   }, [_vm._v("\n    " + _vm._s(_vm.task.description) + "\n  ")]), _vm._v(" "), _c("button", {
+    attrs: {
+      type: "button",
+      title: "Edit"
+    },
+    on: {
+      click: function click($event) {
+        $event.stopPropagation();
+        return _vm.editTask.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("🖊️")]), _vm._v(" "), _c("button", {
     attrs: {
       type: "button",
       title: "Remove"
@@ -1218,6 +1292,9 @@ var render = function render() {
       on: {
         "change-completed": function changeCompleted($event) {
           return _vm.onChangeCompleted($event, task);
+        },
+        "change-description": function changeDescription($event) {
+          return _vm.onChangeDescription($event, task);
         },
         remove: _vm.removeTask
       }
