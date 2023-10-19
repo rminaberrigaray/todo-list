@@ -16,6 +16,3 @@ CREATE TABLE tasks (
     modified DATETIME,
     FOREIGN KEY user_key (user_id) REFERENCES users(id)
 );
-
-INSERT INTO users (username, password, created, modified)
-VALUES ('someuser', 'password', NOW(), NOW());

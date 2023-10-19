@@ -53,13 +53,13 @@ use Cake\Utility\Security;
  * and decreased performance on each request. The purpose of the .env file is to emulate
  * the presence of the environment variables like they would be present in production.
  */
-if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-    $dotenv->parse()
-        ->putenv(true)
-        ->toEnv()
-        ->toServer();
-}
+// if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
+//     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+//     $dotenv->parse()
+//         ->putenv(true)
+//         ->toEnv()
+//         ->toServer();
+// }
 
 /*
  * Read configuration file and inject configuration into various
@@ -81,7 +81,7 @@ try {
  * You can use a file like app_local.php to provide local overrides to your
  * shared configuration.
  */
-//Configure::load('app_local', 'default');
+Configure::load('app_local', 'default');
 
 /*
  * When debug = true the metadata cache should only last
